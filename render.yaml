@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: stw-ai-backend
+    runtime: python
+    region: oregon  # Options: oregon (US), ohio (US), frankfurt (EU), singapore (Asia)
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+    healthCheckPath: /health
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false  # You'll enter this manually in Render dashboard
+      - key: SITE_URL
+        value: https://stw-ai-backend.onrender.com
+      - key: SITE_NAME
+        value: STW AI
+      - key: RENDER
+        value: true
+      - key: PYTHON_VERSION
+        value: 3.11.0
